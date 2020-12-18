@@ -25,19 +25,17 @@ import java.util.Random;
  * @author josue
  */
 public class Popeyes extends javax.swing.JFrame {
-     private ArrayList<String> complementos;
-     private Random r=new Random();
+
+    private ArrayList complementos = new ArrayList<String>();
+    private Random r = new Random();
 
     /**
      * Creates new form Popeyes
      */
     public Popeyes() {
         initComponents();
-        ab=new adminbarra(progress);
-        
-        
-        
-        
+        ab = new adminbarra(progress,piezas,complementos);
+
         DefaultComboBoxModel modelo
                 = (DefaultComboBoxModel) complements.getModel();
         modelo.addElement("Biscuits");
@@ -46,8 +44,8 @@ public class Popeyes extends javax.swing.JFrame {
         modelo.addElement("Refresco");
         modelo.addElement("Pie");
         complements.setModel(modelo);
-        DefaultTableModel t=new DefaultTableModel();
-        String [] titulo=new String[]{"# DE ORDEN","ELEMENTO","TIEMPO"};
+        DefaultTableModel t = new DefaultTableModel();
+        String[] titulo = new String[]{"# DE ORDEN", "ELEMENTO", "TIEMPO"};
         t.setColumnIdentifiers(titulo);
         tablaorden.setModel(t);
     }
@@ -83,6 +81,9 @@ public class Popeyes extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         order = new javax.swing.JButton();
 
+        ordenlist.setBackground(new java.awt.Color(153, 0, 51));
+        ordenlist.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        ordenlist.setForeground(new java.awt.Color(51, 51, 51));
         ordenlist.setModel(new DefaultListModel());
         jScrollPane2.setViewportView(ordenlist);
 
@@ -112,6 +113,11 @@ public class Popeyes extends javax.swing.JFrame {
         historial.setBackground(new java.awt.Color(255, 255, 0));
         historial.setForeground(new java.awt.Color(51, 51, 51));
         historial.setText("HISTORIAL");
+        historial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                historialMouseClicked(evt);
+            }
+        });
 
         helpbutton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/info_64.png"))); // NOI18N
         helpbutton.setText(" ");
@@ -314,31 +320,31 @@ public class Popeyes extends javax.swing.JFrame {
     }//GEN-LAST:event_addcomplementActionPerformed
 
     private void addcomplementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addcomplementMouseClicked
-         if (complements.getSelectedIndex() > 0) {
-            complementos.add((String)complements.getSelectedItem());
+        if (complements.getSelectedIndex() > 0) {
+            complementos.add((String) complements.getSelectedItem());
         }
         JOptionPane.showMessageDialog(this, "Complemento agregado a su orden");
     }//GEN-LAST:event_addcomplementMouseClicked
 
     private void helpbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpbuttonMouseClicked
-        JOptionPane.showMessageDialog(this,"En esta ventana usted puede hacer una orden que llegara directo a su hogar!\nPara ordenar simplemente tiene que seguir estos sencillos pasos:\n\n1-Ingrese su nombre,la cantidad de piezas de pollo que desea,y los complementos que desea.\n"
+        JOptionPane.showMessageDialog(this, "En esta ventana usted puede hacer una orden que llegara directo a su hogar!\nPara ordenar simplemente tiene que seguir estos sencillos pasos:\n\n1-Ingrese su nombre,la cantidad de piezas de pollo que desea,y los complementos que desea.\n"
                 + "2-Si usted desea mas de un complemento, presione el boton de agregar cuantas veces necesite.\n"
                 + "(Se le agregara a su orden el complemento seleccionado en la lista cada vez que usted presione agregar)"
                 + "\n3-Presione Ordenar una vez que haya concluido y espere a que su orden se procese.");
     }//GEN-LAST:event_helpbuttonMouseClicked
 
     private void orderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderMouseClicked
+
         ab.start();
-        Date fecha=new Date();
-        int i=0;
-        int nr=1+r.nextInt(10000);
-        int pieces=(int) piezas.getValue();
-        String nombre=namefield.getText();
-        ArrayList <String> complements=complementos;
-         try {
+        Date fecha = new Date();
+        int nr = 1 + r.nextInt(99999);
+        int pieces = (int) piezas.getValue();
+        String nombre = namefield.getText();
+        ArrayList<String> complements = complementos;
+        try {
             DefaultListModel modelo = (DefaultListModel) ordenlist.getModel();
-            Ordenes o = new Ordenes(pieces,complements);
-            Clientes c=new Clientes(o,nombre);
+            Ordenes o = new Ordenes(pieces, complements);
+            Clientes c = new Clientes(o, nombre);
             modelo.addElement(c);
             ordenlist.setModel(modelo);
             namefield.setText("");
@@ -346,34 +352,49 @@ public class Popeyes extends javax.swing.JFrame {
             ap.cargarArchivo();
             ap.setCliente(c);
             ap.escribirArchivo();
-             FileWriter fw = null;
-        BufferedWriter bw = null;
-        File archivo=null;
-        try {
-            archivo=new File("./"+"Factura"+i+".txt");
-            fw = new FileWriter(archivo, false);
-            bw = new BufferedWriter(fw);
-                bw.write(fecha.toString());
-                bw.write("Cliente: "+nombre);
-                bw.write("Piezas de pollo ordenadas: "+pieces);
-                bw.write("Complementos ordenados: "+complements.size());
-                for(String com:complements){
-                bw.write(com);}
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            File archivo = null;
+            try {
+                archivo = new File("./" + "Factura" + nr + ".txt");
+                fw = new FileWriter(archivo, false);
+                bw = new BufferedWriter(fw);
+                bw.write("Fecha: " + fecha.toString());
+                bw.newLine();
+                bw.write("Cliente: " + nombre);
+                bw.newLine();
+                bw.write("Numero de orden: #" + nr);
+                bw.newLine();
+                bw.write("Piezas de pollo ordenadas: " + pieces);
+                bw.newLine();
+                bw.write("Complementos ordenados: " + complements.size() + ": ");
+                for (String com : complements) {
+                    bw.write(com);
+                    bw.write(", ");
+                }
+                bw.newLine();
                 bw.write("Vuelva Pronto!!!");
-            bw.flush();
-        } catch (Exception ex) {
-        }
-        bw.close();
-        fw.close();
-            
+                bw.flush();
+            } catch (Exception ex) {
+            }
+            bw.close();
+            fw.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-         i++;
-         complementos.clear();
-                                   
-        
+        complementos.clear();
+        JOptionPane.showMessageDialog(this, "ORDEN COMPLETADA!!!");
+
+
     }//GEN-LAST:event_orderMouseClicked
+
+    private void historialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_historialMouseClicked
+        listahistorial.setModal(true);
+        listahistorial.pack();
+        listahistorial.setLocationRelativeTo(this);
+        listahistorial.setVisible(true);
+    }//GEN-LAST:event_historialMouseClicked
 
     /**
      * @param args the command line arguments
@@ -436,7 +457,7 @@ public class Popeyes extends javax.swing.JFrame {
 
     adminbarra ab;
 
-class FondoPane1 extends JPanel {
+    class FondoPane1 extends JPanel {
 
         private Image imagen;
 
@@ -452,9 +473,5 @@ class FondoPane1 extends JPanel {
 
         }
     }
-
-
-
-
 
 }

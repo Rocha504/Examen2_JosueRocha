@@ -12,14 +12,16 @@ import javax.swing.JSpinner;
 public class adminbarra extends Thread {
     
     private JProgressBar barra;
-    private boolean avanzar;
-    private boolean vive;
+    private boolean avanzar=true;
+    private boolean vive=true;
     private JSpinner piezas;
     private ArrayList<String> complementos;
     
     
-    public adminbarra(JProgressBar barra){
+    public adminbarra(JProgressBar barra,JSpinner piezas,ArrayList<String> complementos){
         this.barra=barra;
+        this.piezas=piezas;
+        this.complementos=complementos;
         avanzar=true;
         vive=true;
     }
@@ -50,13 +52,19 @@ public class adminbarra extends Thread {
     
     @Override
     public void run(){
+        int max=(int) piezas.getValue();
+        barra.setMaximum(max);
         while(vive){
             if(avanzar){
-                barra.setValue((int) piezas.getValue());
-                                      }
+                 
+                if(barra.getValue()==barra.getMaximum()){
+                    vive=false;
+                }
             }
+        }
             try{
                 Thread.sleep(4000);
+                barra.setValue(barra.getValue()+1);
             }
             catch(InterruptedException e){    
         }     
