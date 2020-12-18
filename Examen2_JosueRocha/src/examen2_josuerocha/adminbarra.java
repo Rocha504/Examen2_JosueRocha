@@ -52,8 +52,10 @@ public class adminbarra extends Thread {
     
     @Override
     public void run(){
+        
         int max=(int) piezas.getValue();
         barra.setMaximum(max);
+        for(int i=0;i<=max;i++){
         while(vive){
             if(avanzar){
                 try{
@@ -63,15 +65,18 @@ public class adminbarra extends Thread {
                  catch(InterruptedException m){
                  }
                 if(barra.getValue()==barra.getMaximum()){
-                    vive=false;
+                    barra.setValue(barra.getMinimum());
                 }
+                
             }
+        }
         }
             try{
                 Thread.sleep(100);
             }
             catch(InterruptedException e){    
         }     
-    }       
+    
+    }
 }
 
