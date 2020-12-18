@@ -1,6 +1,0 @@
-Fecha: Fri Dec 18 17:08:18 CST 2020
-Cliente: HELLO
-Numero de orden: #777
-Piezas de pollo ordenadas: 2
-Complementos ordenados: 1: Pure, 
-Vuelva Pronto!!!

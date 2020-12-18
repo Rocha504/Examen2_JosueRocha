@@ -56,15 +56,19 @@ public class adminbarra extends Thread {
         barra.setMaximum(max);
         while(vive){
             if(avanzar){
-                 
+                try{
+                sleep(2000);
+                barra.setValue(barra.getValue()+1);
+                }
+                 catch(InterruptedException m){
+                 }
                 if(barra.getValue()==barra.getMaximum()){
                     vive=false;
                 }
             }
         }
             try{
-                Thread.sleep(4000);
-                barra.setValue(barra.getValue()+1);
+                Thread.sleep(100);
             }
             catch(InterruptedException e){    
         }     
