@@ -1,15 +1,16 @@
  
 package examen2_josuerocha;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author josue
  */
-public class Clientes {
+public class Clientes implements Serializable {
     
-    private ArrayList <Ordenes> ordenes;
+    private Ordenes ordenes;
     private String nombre;
 
     public Clientes() {
@@ -19,16 +20,16 @@ public class Clientes {
         this.nombre = nombre;
     }
 
-    public Clientes(ArrayList<Ordenes> ordenes, String nombre) {
+    public Clientes(Ordenes ordenes, String nombre) {
         this.ordenes = ordenes;
         this.nombre = nombre;
     }
 
-    public ArrayList<Ordenes> getOrdenes() {
+    public Ordenes getOrdenes() {
         return ordenes;
     }
 
-    public void setOrdenes(ArrayList<Ordenes> ordenes) {
+    public void setOrdenes(Ordenes ordenes) {
         this.ordenes = ordenes;
     }
 

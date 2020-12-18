@@ -7,12 +7,18 @@ package examen2_josuerocha;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import java.util.Random;
 
 /**
  *
@@ -20,12 +26,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Popeyes extends javax.swing.JFrame {
      private ArrayList<String> complementos;
+     private Random r=new Random();
 
     /**
      * Creates new form Popeyes
      */
     public Popeyes() {
         initComponents();
+        ab=new adminbarra(progress);
+        
         
         
         
@@ -52,6 +61,9 @@ public class Popeyes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        listahistorial = new javax.swing.JDialog();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ordenlist = new javax.swing.JList<>();
         jPanel1 = new FondoPane1();
         jLabel1 = new javax.swing.JLabel();
         historial = new javax.swing.JButton();
@@ -70,6 +82,26 @@ public class Popeyes extends javax.swing.JFrame {
         progress = new javax.swing.JProgressBar();
         jLabel7 = new javax.swing.JLabel();
         order = new javax.swing.JButton();
+
+        ordenlist.setModel(new DefaultListModel());
+        jScrollPane2.setViewportView(ordenlist);
+
+        javax.swing.GroupLayout listahistorialLayout = new javax.swing.GroupLayout(listahistorial.getContentPane());
+        listahistorial.getContentPane().setLayout(listahistorialLayout);
+        listahistorialLayout.setHorizontalGroup(
+            listahistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(listahistorialLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        listahistorialLayout.setVerticalGroup(
+            listahistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listahistorialLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -160,6 +192,11 @@ public class Popeyes extends javax.swing.JFrame {
         order.setText("ORDENAR");
         order.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pollo_48.png"))); // NOI18N
         order.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pollo_72.png"))); // NOI18N
+        order.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                orderMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -290,6 +327,54 @@ public class Popeyes extends javax.swing.JFrame {
                 + "\n3-Presione Ordenar una vez que haya concluido y espere a que su orden se procese.");
     }//GEN-LAST:event_helpbuttonMouseClicked
 
+    private void orderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderMouseClicked
+        ab.start();
+        Date fecha=new Date();
+        int i=0;
+        int nr=1+r.nextInt(10000);
+        int pieces=(int) piezas.getValue();
+        String nombre=namefield.getText();
+        ArrayList <String> complements=complementos;
+         try {
+            DefaultListModel modelo = (DefaultListModel) ordenlist.getModel();
+            Ordenes o = new Ordenes(pieces,complements);
+            Clientes c=new Clientes(o,nombre);
+            modelo.addElement(c);
+            ordenlist.setModel(modelo);
+            namefield.setText("");
+            MemoriaClientes ap = new MemoriaClientes("./Clientes.jarp");
+            ap.cargarArchivo();
+            ap.setCliente(c);
+            ap.escribirArchivo();
+             FileWriter fw = null;
+        BufferedWriter bw = null;
+        File archivo=null;
+        try {
+            archivo=new File("./"+"Factura"+i+".txt");
+            fw = new FileWriter(archivo, false);
+            bw = new BufferedWriter(fw);
+                bw.write(fecha.toString());
+                bw.write("Cliente: "+nombre);
+                bw.write("Piezas de pollo ordenadas: "+pieces);
+                bw.write("Complementos ordenados: "+complements.size());
+                for(String com:complements){
+                bw.write(com);}
+                bw.write("Vuelva Pronto!!!");
+            bw.flush();
+        } catch (Exception ex) {
+        }
+        bw.close();
+        fw.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         i++;
+         complementos.clear();
+                                   
+        
+    }//GEN-LAST:event_orderMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -339,13 +424,17 @@ public class Popeyes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JDialog listahistorial;
     private javax.swing.JTextField namefield;
+    private javax.swing.JList<String> ordenlist;
     private javax.swing.JButton order;
     private javax.swing.JSpinner piezas;
     private javax.swing.JProgressBar progress;
     private javax.swing.JTable tablaorden;
     // End of variables declaration//GEN-END:variables
 
+    adminbarra ab;
 
 class FondoPane1 extends JPanel {
 

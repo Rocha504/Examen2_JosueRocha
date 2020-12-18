@@ -1,25 +1,26 @@
  
 package examen2_josuerocha;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author josue
  */
-public class Ordenes {
+public class Ordenes implements Serializable {
     
-    private ArrayList<String> piezas;
+    private int piezas;
     private ArrayList<String> complementos;
 
     public Ordenes() {
     }
 
-    public Ordenes(ArrayList<String> piezas) {
+    public Ordenes(int piezas) {
         this.piezas = piezas;
     }
 
-    public Ordenes(ArrayList<String> piezas, ArrayList<String> complementos) {
+    public Ordenes(int piezas, ArrayList<String> complementos) {
         this.piezas = piezas;
         this.complementos = complementos;
     }

@@ -30,7 +30,7 @@ public class MemoriaClientes {
         return listaClientes;
     }
 
-    public void setListaAdministradores(ArrayList<Clientes> listaClientes) {
+    public void setListaClientes(ArrayList<Clientes> listaClientes) {
         this.listaClientes = listaClientes;
     }
 
@@ -42,7 +42,7 @@ public class MemoriaClientes {
         this.archivo = archivo;
     }
 
-    public void setAdmin(Clientes c) {
+    public void setCliente(Clientes c) {
         this.listaClientes.add(c);
     }
     
