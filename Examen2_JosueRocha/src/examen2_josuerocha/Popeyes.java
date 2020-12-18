@@ -7,21 +7,28 @@ package examen2_josuerocha;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author josue
  */
 public class Popeyes extends javax.swing.JFrame {
+     private ArrayList<String> complementos;
 
     /**
      * Creates new form Popeyes
      */
     public Popeyes() {
         initComponents();
+        
+        
+        
         DefaultComboBoxModel modelo
                 = (DefaultComboBoxModel) complements.getModel();
         modelo.addElement("Biscuits");
@@ -30,6 +37,10 @@ public class Popeyes extends javax.swing.JFrame {
         modelo.addElement("Refresco");
         modelo.addElement("Pie");
         complements.setModel(modelo);
+        DefaultTableModel t=new DefaultTableModel();
+        String [] titulo=new String[]{"# DE ORDEN","ELEMENTO","TIEMPO"};
+        t.setColumnIdentifiers(titulo);
+        tablaorden.setModel(t);
     }
 
     /**
@@ -43,19 +54,22 @@ public class Popeyes extends javax.swing.JFrame {
 
         jPanel1 = new FondoPane1();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        historial = new javax.swing.JButton();
+        helpbutton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        namefield = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        piezas = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         complements = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
+        addcomplement = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaorden = new javax.swing.JTable();
+        progress = new javax.swing.JProgressBar();
+        jLabel7 = new javax.swing.JLabel();
+        order = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,14 +77,19 @@ public class Popeyes extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 0));
         jLabel1.setText("BIENVENIDO");
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 0));
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setText("HISTORIAL");
+        historial.setBackground(new java.awt.Color(255, 255, 0));
+        historial.setForeground(new java.awt.Color(51, 51, 51));
+        historial.setText("HISTORIAL");
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/info_64.png"))); // NOI18N
-        jButton2.setText(" ");
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/info_32.png"))); // NOI18N
+        helpbutton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/info_64.png"))); // NOI18N
+        helpbutton.setText(" ");
+        helpbutton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        helpbutton.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/info_32.png"))); // NOI18N
+        helpbutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                helpbuttonMouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 204));
@@ -81,10 +100,10 @@ public class Popeyes extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 204));
         jLabel3.setText("REALIZAR ORDEN");
 
-        jTextField1.setText(" ");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        namefield.setText(" ");
+        namefield.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                namefieldActionPerformed(evt);
             }
         });
 
@@ -96,7 +115,7 @@ public class Popeyes extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 204));
         jLabel5.setText("PIEZAS DE POLLO");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 32, 1));
+        piezas.setModel(new javax.swing.SpinnerNumberModel(1, 1, 32, 1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 204));
@@ -105,17 +124,22 @@ public class Popeyes extends javax.swing.JFrame {
         complements.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         complements.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
 
-        jButton3.setBackground(new java.awt.Color(0, 0, 204));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 0));
-        jButton3.setText("AGREGAR");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        addcomplement.setBackground(new java.awt.Color(0, 0, 204));
+        addcomplement.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        addcomplement.setForeground(new java.awt.Color(255, 255, 0));
+        addcomplement.setText("AGREGAR");
+        addcomplement.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addcomplementMouseClicked(evt);
+            }
+        });
+        addcomplement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                addcomplementActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaorden.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -126,7 +150,16 @@ public class Popeyes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaorden);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel7.setText("ORDEN");
+
+        order.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pollo_62.png"))); // NOI18N
+        order.setText("ORDENAR");
+        order.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pollo_48.png"))); // NOI18N
+        order.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pollo_72.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -137,26 +170,29 @@ public class Popeyes extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(historial)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(27, 27, 27)
-                                .addComponent(complements, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel3)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(namefield, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(piezas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addGap(27, 27, 27)
+                                    .addComponent(complements, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(addcomplement))
+                                .addComponent(progress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(order, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -164,11 +200,15 @@ public class Popeyes extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
                                         .addComponent(jLabel4))
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(helpbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(29, 29, 29))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(jLabel7)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,30 +219,36 @@ public class Popeyes extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(jButton2)))
+                        .addComponent(helpbutton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(40, 40, 40)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(namefield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(piezas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(complements, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3)))
+                            .addComponent(addcomplement))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(order)
+                        .addGap(18, 18, 18)
+                        .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addComponent(historial)
                 .addContainerGap())
         );
 
@@ -222,13 +268,27 @@ public class Popeyes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void namefieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namefieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_namefieldActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void addcomplementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addcomplementActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_addcomplementActionPerformed
+
+    private void addcomplementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addcomplementMouseClicked
+         if (complements.getSelectedIndex() > 0) {
+            complementos.add((String)complements.getSelectedItem());
+        }
+        JOptionPane.showMessageDialog(this, "Complemento agregado a su orden");
+    }//GEN-LAST:event_addcomplementMouseClicked
+
+    private void helpbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpbuttonMouseClicked
+        JOptionPane.showMessageDialog(this,"En esta ventana usted puede hacer una orden que llegara directo a su hogar!\nPara ordenar simplemente tiene que seguir estos sencillos pasos:\n\n1-Ingrese su nombre,la cantidad de piezas de pollo que desea,y los complementos que desea.\n"
+                + "2-Si usted desea mas de un complemento, presione el boton de agregar cuantas veces necesite.\n"
+                + "(Se le agregara a su orden el complemento seleccionado en la lista cada vez que usted presione agregar)"
+                + "\n3-Presione Ordenar una vez que haya concluido y espere a que su orden se procese.");
+    }//GEN-LAST:event_helpbuttonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -266,21 +326,24 @@ public class Popeyes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addcomplement;
     private javax.swing.JComboBox<String> complements;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton helpbutton;
+    private javax.swing.JButton historial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField namefield;
+    private javax.swing.JButton order;
+    private javax.swing.JSpinner piezas;
+    private javax.swing.JProgressBar progress;
+    private javax.swing.JTable tablaorden;
     // End of variables declaration//GEN-END:variables
 
 
