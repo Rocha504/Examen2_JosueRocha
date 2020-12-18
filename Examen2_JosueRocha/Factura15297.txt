@@ -1,6 +1,0 @@
-Fecha: Fri Dec 18 17:29:13 CST 2020
-Cliente:  ddd
-Numero de orden: #15297
-Piezas de pollo ordenadas: 2
-Complementos ordenados: 1: Papas, 
-Vuelva Pronto!!!

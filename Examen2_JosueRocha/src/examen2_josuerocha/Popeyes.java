@@ -44,6 +44,14 @@ public class Popeyes extends javax.swing.JFrame {
         modelo.addElement("Refresco");
         modelo.addElement("Pie");
         complements.setModel(modelo);
+        MemoriaClientes mp = new MemoriaClientes("./Clientes.jarp");
+        mp.cargarArchivo();
+        DefaultListModel modelo5
+                = new DefaultListModel();
+        for (Clientes c : mp.getListaClientes()) {
+            modelo5.addElement(c);
+        }
+        ordenlist.setModel(modelo5);
         DefaultTableModel t = new DefaultTableModel();
         String[] titulo = new String[]{"# DE ORDEN", "ELEMENTO", "TIEMPO"};
         t.setColumnIdentifiers(titulo);

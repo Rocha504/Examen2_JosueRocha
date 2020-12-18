@@ -1,6 +1,0 @@
-Fecha: Fri Dec 18 17:31:02 CST 2020
-Cliente:  ff
-Numero de orden: #2820
-Piezas de pollo ordenadas: 2
-Complementos ordenados: 1: Pure, 
-Vuelva Pronto!!!
