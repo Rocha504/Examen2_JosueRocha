@@ -390,8 +390,12 @@ public class Popeyes extends javax.swing.JFrame {
     private void addcomplementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addcomplementMouseClicked
         if (complements.getSelectedIndex() > 0) {
             complementos.add((String) complements.getSelectedItem());
+            JOptionPane.showMessageDialog(this, "Complemento agregado a su orden");
         }
-        JOptionPane.showMessageDialog(this, "Complemento agregado a su orden");
+        else{
+             JOptionPane.showMessageDialog(this, "No escogio ningun complemento.");
+        }
+        
     }//GEN-LAST:event_addcomplementMouseClicked
 
     private void helpbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpbuttonMouseClicked
@@ -403,8 +407,11 @@ public class Popeyes extends javax.swing.JFrame {
     }//GEN-LAST:event_helpbuttonMouseClicked
 
     private void orderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderMouseClicked
-
-        ab.start();
+        try{
+        ab.start();}
+        catch(Exception e){
+            
+        }
         Date fecha = new Date();
         int nr = 1 + r.nextInt(99999);
         int pieces = (int) piezas.getValue();
@@ -473,7 +480,7 @@ public class Popeyes extends javax.swing.JFrame {
             e.printStackTrace();
         }
         complementos.clear();
-        JOptionPane.showMessageDialog(this, "ORDEN COMPLETADA!!! SE CREO UNA FACTURA.");
+        JOptionPane.showMessageDialog(this, "ORDEN COMPLETADA!!! SE CREO UNA FACTURA.\n\n Nota: puede que alguna de su informacion haya sido\n guardada en nuestro sistema para llevar historial.\n Gracias.");
 
 
     }//GEN-LAST:event_orderMouseClicked

@@ -1,6 +1,0 @@
-Fecha: Fri Dec 18 18:21:38 CST 2020
-Cliente: ola
-Numero de orden: #49901
-Piezas de pollo ordenadas: 2
-Complementos ordenados: 1: Papas, 
-Vuelva Pronto!!!
