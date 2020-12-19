@@ -34,7 +34,7 @@ public class Popeyes extends javax.swing.JFrame {
      */
     public Popeyes() {
         initComponents();
-        ab = new adminbarra(progress,piezas,complementos);
+        ab = new adminbarra(progress, piezas, complementos);
 
         DefaultComboBoxModel modelo
                 = (DefaultComboBoxModel) complements.getModel();
@@ -335,7 +335,8 @@ public class Popeyes extends javax.swing.JFrame {
     }//GEN-LAST:event_addcomplementMouseClicked
 
     private void helpbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpbuttonMouseClicked
-        JOptionPane.showMessageDialog(this, "En esta ventana usted puede hacer una orden que llegara directo a su hogar!\nPara ordenar simplemente tiene que seguir estos sencillos pasos:\n\n1-Ingrese su nombre,la cantidad de piezas de pollo que desea,y los complementos que desea.\n"
+        JOptionPane.showMessageDialog(this, "En esta ventana usted puede hacer una orden que llegara directo a su hogar!\nPara ordenar simplemente tiene que seguir estos sencillos pasos:\n\n"
+                + "1-Ingrese su nombre,la cantidad de piezas de pollo que desea,y los complementos que desea.\n"
                 + "2-Si usted desea mas de un complemento, presione el boton de agregar cuantas veces necesite.\n"
                 + "(Se le agregara a su orden el complemento seleccionado en la lista cada vez que usted presione agregar)"
                 + "\n3-Presione Ordenar una vez que haya concluido y espere a que su orden se procese.");
@@ -351,9 +352,28 @@ public class Popeyes extends javax.swing.JFrame {
         ArrayList<String> complements = complementos;
         try {
             DefaultListModel modelo = (DefaultListModel) ordenlist.getModel();
+            DefaultTableModel modelo2 = (DefaultTableModel) tablaorden.getModel();
             Ordenes o = new Ordenes(pieces, complements);
             Clientes c = new Clientes(o, nombre);
             modelo.addElement(c);
+            for (int i = 0; i < (int) piezas.getValue(); i++) {
+                modelo2.addRow(new Object[]{nr, "Pieza de pollo", "4 minutos"});
+            }
+            int tiempo;
+            for (String cosa : complements) {
+                if (cosa.equals("Biscuits")) {
+                    modelo2.addRow(new Object[]{nr, cosa, "1 minuto"});
+                } else if (cosa.equals("Pure")) {
+                    modelo2.addRow(new Object[]{nr, cosa, "2 minutos"});
+                } else if (cosa.equals("Papas")) {
+                    modelo2.addRow(new Object[]{nr, cosa, "3 minutos"});
+                } else if (cosa.equals("Refresco")) {
+                    modelo2.addRow(new Object[]{nr, cosa, "1 minuto"});
+                } else if (cosa.equals("Pie")) {
+                    modelo2.addRow(new Object[]{nr, cosa, "5 minutos"});
+                }
+
+            }
             ordenlist.setModel(modelo);
             namefield.setText("");
             MemoriaClientes ap = new MemoriaClientes("./Clientes.jarp");
