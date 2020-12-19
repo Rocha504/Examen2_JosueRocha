@@ -70,6 +70,11 @@ public class Popeyes extends javax.swing.JFrame {
         listahistorial = new javax.swing.JDialog();
         jScrollPane2 = new javax.swing.JScrollPane();
         ordenlist = new javax.swing.JList<>();
+        Refresh2 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel1 = new FondoPane1();
         jLabel1 = new javax.swing.JLabel();
         historial = new javax.swing.JButton();
@@ -89,11 +94,40 @@ public class Popeyes extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         order = new javax.swing.JButton();
 
+        listahistorial.setBackground(new java.awt.Color(0, 0, 153));
+
         ordenlist.setBackground(new java.awt.Color(153, 0, 51));
         ordenlist.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         ordenlist.setForeground(new java.awt.Color(51, 51, 51));
         ordenlist.setModel(new DefaultListModel());
         jScrollPane2.setViewportView(ordenlist);
+
+        Refresh2.setBackground(new java.awt.Color(0, 102, 204));
+        Refresh2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/refresh_2.png"))); // NOI18N
+        Refresh2.setText(" ");
+        Refresh2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/refresh_3.png"))); // NOI18N
+        Refresh2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/refresh_1.png"))); // NOI18N
+        Refresh2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Refresh2MouseClicked(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel8.setText("HISTORIAL DE CLIENTES Y SUS ORDENES");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel9.setText("Porfavor");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel10.setText("refrescar");
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel11.setText("La pagina");
 
         javax.swing.GroupLayout listahistorialLayout = new javax.swing.GroupLayout(listahistorial.getContentPane());
         listahistorial.getContentPane().setLayout(listahistorialLayout);
@@ -101,14 +135,40 @@ public class Popeyes extends javax.swing.JFrame {
             listahistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(listahistorialLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
+                .addGroup(listahistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(listahistorialLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
+                        .addGroup(listahistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listahistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel10))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addComponent(Refresh2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         listahistorialLayout.setVerticalGroup(
             listahistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listahistorialLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
+                .addGroup(listahistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Refresh2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(listahistorialLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(listahistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(listahistorialLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel8))
+                            .addGroup(listahistorialLayout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel11)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -374,6 +434,7 @@ public class Popeyes extends javax.swing.JFrame {
                 }
 
             }
+            tablaorden.setModel(modelo2);
             ordenlist.setModel(modelo);
             namefield.setText("");
             MemoriaClientes ap = new MemoriaClientes("./Clientes.jarp");
@@ -412,7 +473,7 @@ public class Popeyes extends javax.swing.JFrame {
             e.printStackTrace();
         }
         complementos.clear();
-        JOptionPane.showMessageDialog(this, "ORDEN COMPLETADA!!!");
+        JOptionPane.showMessageDialog(this, "ORDEN COMPLETADA!!! SE CREO UNA FACTURA.");
 
 
     }//GEN-LAST:event_orderMouseClicked
@@ -423,6 +484,17 @@ public class Popeyes extends javax.swing.JFrame {
         listahistorial.setLocationRelativeTo(this);
         listahistorial.setVisible(true);
     }//GEN-LAST:event_historialMouseClicked
+
+    private void Refresh2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Refresh2MouseClicked
+        MemoriaClientes mg = new MemoriaClientes("./Clientes.jarp");
+        mg.cargarArchivo();
+        DefaultListModel modelo2
+        = new DefaultListModel();
+        for (Clientes g : mg.getListaClientes()) {
+            modelo2.addElement(g);
+        }
+        ordenlist.setModel(modelo2);
+    }//GEN-LAST:event_Refresh2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -460,17 +532,22 @@ public class Popeyes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Refresh2;
     private javax.swing.JButton addcomplement;
     private javax.swing.JComboBox<String> complements;
     private javax.swing.JButton helpbutton;
     private javax.swing.JButton historial;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
